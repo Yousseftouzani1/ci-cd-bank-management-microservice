@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql:3306/banking_core_service
+    username: root
+    password: youssef1515
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  zipkin:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  flyway:
+    enabled: true
+
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+
+eureka:
+  client:
+    enabled: false
+
+server:
+  port: 8092
