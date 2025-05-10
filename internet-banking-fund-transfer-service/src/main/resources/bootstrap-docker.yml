@@ -1,4 +1,18 @@
 spring:
+  application:
+    name: fund-transfer-service
   cloud:
     config:
-      uri: http://internet-banking-config-server:8090
+      enabled: false
+    discovery:
+      enabled: false
+
+eureka:
+  client:
+    enabled: false
+
+zipkin:
+  enabled: false
+
+flyway:
+  enabled: true

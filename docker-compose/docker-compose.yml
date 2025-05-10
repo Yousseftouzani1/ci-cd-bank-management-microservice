@@ -7,7 +7,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: youssef1515
       MYSQL_DATABASE: banking_core_service
-
     ports:
       - "3307:3306"
     volumes:
@@ -15,6 +14,12 @@ services:
     networks:
       mysql-net:
         ipv4_address: 172.25.0.9
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   core-banking-service:
     build: ../core-banking-service
     container_name: core-banking-service
@@ -25,6 +30,24 @@ services:
     networks:
       mysql-net:
         ipv4_address: 172.25.0.2
+
+  fund-transfer-service:
+    build: ../internet-banking-fund-transfer-service
+    container_name: fund-transfer-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8084/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      mysql-net:
 
 volumes:
   mysqldata:
